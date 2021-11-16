@@ -1,4 +1,7 @@
-include(googletest.cmake)
+
+if(NOT TARGET gtest_main)
+    include(googletest.cmake)
+endif()
 
 file(GLOB test_sources *.cpp)
 
