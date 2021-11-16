@@ -16,4 +16,9 @@ target_link_libraries(poly-test
         poly::headers
         )
 target_compile_definitions(poly-test PRIVATE POLY_PLATFORM_TESTING)
+
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    target_compile_options(poly-test PRIVATE -Wno-self-assign-overloaded)
+endif()
+
 add_test(NAME poly-test COMMAND poly-test)
