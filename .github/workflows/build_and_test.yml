@@ -11,18 +11,18 @@ jobs:
       matrix:
         config:
         - {
-            name: "Windows Latest MSVC"
-            os: windows-2022
-            cc: "cl", cxx: "cl"
+            name: "Windows Latest MSVC",
+            os: windows-2022,
+            cc: "cl", cxx: "cl",
             environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
           }
         - {
-            name: "Ubuntu Latest GCC"
+            name: "Ubuntu Latest GCC",
             os: ubuntu-latest,
             cc: "gcc-10", cxx: "g++-10"
           }
         - {
-            name: "Ubuntu Latest Clang"
+            name: "Ubuntu Latest Clang",
             os: ubuntu-latest,
             cc: "clang-12", cxx: "clang++-12"
           }
