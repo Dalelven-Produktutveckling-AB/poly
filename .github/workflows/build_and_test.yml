@@ -14,17 +14,20 @@ jobs:
             name: "Windows Latest MSVC",
             os: windows-2022,
             cc: "cl", cxx: "cl",
-            environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
+            environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
+            cxxflags: "/W4"
           }
         - {
             name: "Ubuntu Latest GCC",
             os: ubuntu-latest,
-            cc: "gcc-10", cxx: "g++-10"
+            cc: "gcc-10", cxx: "g++-10",
+            cxxflags: "-Wall -Wextra -Wpedantic"
           }
         - {
             name: "Ubuntu Latest Clang",
             os: ubuntu-latest,
-            cc: "clang-12", cxx: "clang++-12"
+            cc: "clang-12", cxx: "clang++-12",
+            cxxflags: "-Wall -Wextra -Wpedantic"
           }
     steps:
       - uses: actions/checkout@v1
