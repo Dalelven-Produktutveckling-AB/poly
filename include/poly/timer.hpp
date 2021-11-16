@@ -25,7 +25,7 @@ public:
      * @brief Changes the handler of this callback without starting to wait for a timeout.
      * @param callback The new handler to use.
      */
-    void set_handler(poly::function<void(deadline_timer&)> callback) {
+    void set_handler(const poly::function<void(deadline_timer&)>& callback) {
         callback_ = callback;
     }
 
@@ -40,7 +40,7 @@ public:
      * @param callback The new callback to use.
      * @param timeout The timeout of this deadline timer.
      */
-    void async_wait(poly::function<void(deadline_timer&)> callback, duration timeout) {
+    void async_wait(const poly::function<void(deadline_timer&)>& callback, duration timeout) {
         set_handler(callback);
         async_wait(timeout);
     }

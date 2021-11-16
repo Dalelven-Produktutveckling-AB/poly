@@ -569,3 +569,5 @@ FodyWeavers.xsd
 # End of https://www.toptal.com/developers/gitignore/api/clion,visualstudio,pvs,c++,cmake
 
 *-build*/
+
+*.PVS-Studio.cfg

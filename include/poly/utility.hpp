@@ -40,12 +40,6 @@ SOFTWARE.
 
 namespace poly
 {
-#define POLY_UTILITY_DETAIL_NOT_USING_STL 1
-#define POLY_UTILITY_DETAIL_CPP11_SUPPORTED 1
-#define POLY_UTILITY_DETAIL_CPP14_SUPPORTED 1
-#define POLY_UTILITY_DETAIL_CPP17_SUPPORTED 1
-
-#if POLY_UTILITY_DETAIL_CPP11_SUPPORTED
   //******************************************************************************
   template <typename T>
   constexpr typename poly::remove_reference<T>::type&& move(T&& t) noexcept
@@ -79,14 +73,11 @@ namespace poly
     {
         return &arg;
     }
-#endif
 
   // We can't have std::swap and poly::swap templates coexisting in the unit tests
   // as the compiler will be unable to decide of which one to use, due to ADL.
-#if POLY_UTILITY_DETAIL_NOT_USING_STL && !defined(POLY_UTILITY_DETAIL_IN_UNIT_TEST)
   //***************************************************************************
   // swap
-#if POLY_UTILITY_DETAIL_CPP11_SUPPORTED
   template <typename T>
   void swap(T& a, T& b) noexcept
   {
@@ -94,15 +85,6 @@ namespace poly
     a = poly::move(b);
     b = poly::move(temp);
   }
-#else
-  template <typename T>
-  void swap(T& a, T& b) noexcept
-  {
-    T temp(a);
-    a = b;
-    b = temp;
-  }
-#endif
 
   template< class T, size_t N >
   void swap(T(&a)[N], T(&b)[N]) noexcept
@@ -112,7 +94,6 @@ namespace poly
       swap(a[i], b[i]);
     }
   }
-#endif
 
   //******************************************************************************
   template <typename T1, typename T2>
@@ -138,7 +119,6 @@ namespace poly
     {
     }
 
-#if POLY_UTILITY_DETAIL_CPP11_SUPPORTED
     /// Move constructor from parameters
     template <typename U1, typename U2>
     constexpr pair(U1&& a, U2&& b)
@@ -146,7 +126,6 @@ namespace poly
       , second(poly::forward<U2>(b))
     {
     }
-#endif
 
     /// Copy constructor
     template <typename U1, typename U2>
@@ -163,7 +142,11 @@ namespace poly
     {
     }
 
-#if POLY_UTILITY_DETAIL_CPP11_SUPPORTED
+    pair(pair<T1, T2>&& other)
+        : first(poly::move(other.first)),
+          second(poly::move(other.second))
+    {}
+
     /// Move constructor
     template <typename U1, typename U2>
     constexpr pair(pair<U1, U2>&& other)
@@ -171,7 +154,6 @@ namespace poly
       , second(poly::forward<U2>(other.second))
     {
     }
-#endif
 
     void swap(pair<T1, T2>& other)
     {
@@ -198,7 +180,6 @@ namespace poly
       return *this;
     }
 
-#if POLY_UTILITY_DETAIL_CPP11_SUPPORTED
     pair<T1, T2>& operator =(pair<T1, T2>&& other)
     {
       first = poly::forward<T1>(other.first);
@@ -215,31 +196,20 @@ namespace poly
 
       return *this;
     }
-#endif
   };
 
 //*************************************************************************
 /// Template deduction guides.
 //*************************************************************************
-#if POLY_UTILITY_DETAIL_CPP17_SUPPORTED
   template <typename T1, typename T2>
   pair(T1, T2) ->pair<T1, T2>;
-#endif 
 
   //******************************************************************************
-#if POLY_UTILITY_DETAIL_CPP11_SUPPORTED
   template <typename T1, typename T2>
   inline pair<T1, T2> make_pair(T1&& a, T2&& b)
   {
     return pair<T1, T2>(poly::forward<T1>(a), poly::forward<T2>(b));
   }
-#else
-  template <typename T1, typename T2>
-  inline pair<T1, T2> make_pair(T1 a, T2 b)
-  {
-    return pair<T1, T2>(a, b);
-  }
-#endif
 
   //******************************************************************************
   template <typename T1, typename T2>

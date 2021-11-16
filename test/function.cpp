@@ -64,6 +64,7 @@ struct tracker
 
     tracker& operator=(tracker&&) noexcept {
         move_assign++;
+        return *this;
     }
 
     void operator()() {

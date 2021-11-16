@@ -141,7 +141,7 @@ TEST(StxEtxFramer, FnPntr) {
         ASSERT_EQ(deframed_bytes.size(), 2);
         EXPECT_FALSE(error_signalled);
         EXPECT_TRUE(done_signalled);
-        EXPECT_EQ(deframed_bytes[0], 0x04);
-        EXPECT_EQ(deframed_bytes[1], 0x02);
+        EXPECT_EQ(deframed_bytes[0], 0x04); //-V557
+        EXPECT_EQ(deframed_bytes[1], 0x02); //-V557
     }
 }
