@@ -135,18 +135,6 @@ namespace poly
     {
     }
 
-    /// Copy constructor
-    pair(const pair<T1, T2>& other)
-      : first(other.first)
-      , second(other.second)
-    {
-    }
-
-    pair(pair<T1, T2>&& other)
-        : first(poly::move(other.first)),
-          second(poly::move(other.second))
-    {}
-
     /// Move constructor
     template <typename U1, typename U2>
     constexpr pair(pair<U1, U2>&& other)
@@ -163,27 +151,11 @@ namespace poly
       swap(second, other.second);
     }
 
-    pair<T1, T2>& operator =(const pair<T1, T2>& other)
-    {
-      first = other.first;
-      second = other.second;
-
-      return *this;
-    }
-
     template <typename U1, typename U2>
     pair<U1, U2>& operator =(const pair<U1, U2>& other)
     {
       first = other.first;
       second = other.second;
-
-      return *this;
-    }
-
-    pair<T1, T2>& operator =(pair<T1, T2>&& other)
-    {
-      first = poly::forward<T1>(other.first);
-      second = poly::forward<T2>(other.second);
 
       return *this;
     }
@@ -279,7 +251,7 @@ namespace poly
   /// as_const
   //***************************************************************************
   template <typename T>
-  typename poly::add_const<T>::type& as_const(T& t)
+  typename poly::add_const_t<T>& as_const(T& t)
   {
     return t;
   }
@@ -289,11 +261,7 @@ namespace poly
   template <typename T>
   struct coordinate_2d
   {
-    coordinate_2d()
-      : x(T(0))
-      , y(T(0))
-    {
-    }
+    coordinate_2d() = default;
 
     coordinate_2d(T x_, T y_)
       : x(x_)
@@ -311,8 +279,8 @@ namespace poly
       return !(lhs == rhs);
     }
 
-    T x;
-    T y;
+    T x = 0;
+    T y = 0;
   };
 }
 

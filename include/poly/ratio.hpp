@@ -6,6 +6,12 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //===----------------------------------------------------------------------===//
+
+///////////////////////////////////////
+// This file has been modified by
+// Dalelven Produktutveckling AB
+///////////////////////////////////////
+
 #pragma once
 
 /*

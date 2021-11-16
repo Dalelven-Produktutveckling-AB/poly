@@ -19,3 +19,14 @@ one of
   
 This can be chosen via CMake by setting the `POLY_PLATFORM`
 to either `nrf52840` or `testing` respective.
+
+## License
+
+This library is provided under [MIT license](LICENSE).
+
+### Dependencies
+
+  * `ETL` - [MIT license](LICENSE)
+  * Parts of `libc++` - [Apache 2 with LLVM exception](LICENSE.APACHE2-LLVM)
+
+
