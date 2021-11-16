@@ -1,0 +1,43 @@
+#include <poly/power.hpp>
+#include <etl/array.h>
+
+static etl::array<int, static_cast<size_t>(poly::power::power_mode::end)> power_requests_{};
+
+namespace poly::power
+{
+power_request::power_request(const power_request &rhs) {
+    current_mode_ = rhs.current_mode_;
+    power_requests_[static_cast<size_t>(current_mode_)]++;
+}
+
+power_request& power_request::operator=(const power_request& rhs) {
+    if(current_mode_ == rhs.current_mode_) {
+        return *this;
+    }
+
+    power_requests_[static_cast<size_t>(current_mode_)]--;
+    current_mode_ = rhs.current_mode_;
+    power_requests_[static_cast<size_t>(current_mode_)]++;
+    return *this;
+}
+
+power_request::~power_request() {
+    power_requests_[static_cast<size_t>(current_mode_)]--;
+}
+
+power_request request_minimum_power_mode(power_mode mode)
+{
+    power_requests_[static_cast<size_t>(mode)]++;
+    return power_request(mode);
+}
+power_mode requested_power_mode()
+{
+    size_t i=0;
+    for(; i<power_requests_.size(); i++) {
+        if(power_requests_[i] > 0) {
+            return static_cast<power_mode>(i);
+        }
+    }
+    return default_mode;
+}
+}
