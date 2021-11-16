@@ -31,8 +31,8 @@ jobs:
       - name: "Configure"
         run: cmake -S . -B build
         env:
-          CC: ${{{ matrix.config.cc }}
-          CXX: ${{{ matrix.config.cxx }}
+          CC: ${{ matrix.config.cc }}
+          CXX: ${{ matrix.config.cxx }}
       - run: cmake --build build
       - run: cd build
       - run: ctest --extra-verbose
