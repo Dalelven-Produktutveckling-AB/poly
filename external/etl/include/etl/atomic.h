@@ -31,7 +31,7 @@ SOFTWARE.
 
 #include "platform.h"
 
-#if ETL_CPP11_SUPPORTED && ETL_USING_STL
+#if (ETL_CPP11_SUPPORTED && ETL_USING_STL) || defined(ETL_FORCE_STD_ATOMIC)
   #include "atomic/atomic_std.h"
   #define ETL_HAS_ATOMIC 1
 #elif defined(ETL_COMPILER_ARM5)

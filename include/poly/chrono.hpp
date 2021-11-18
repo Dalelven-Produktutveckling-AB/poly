@@ -903,7 +903,7 @@ inline constexpr month& month::operator-=(const months& dm) noexcept
 
 class year {
 private:
-    short yr_;
+    int yr_;
 public:
     year() = default;
     explicit inline constexpr year(int val) noexcept : yr_(static_cast<short>(val)) {}
