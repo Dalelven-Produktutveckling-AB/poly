@@ -471,10 +471,10 @@ struct result_storage_operations_base : result_storage_default_constructor_base<
         ::new (poly::addressof(base_::err_)) E(e);
     }
     void move_construct(T&& t) noexcept(is_nothrow_move_constructible<T>::value) {
-        ::new (poly::addressof(base_::val_)) T(move(t));
+        ::new (poly::addressof(base_::val_)) T(poly::move(t));
     }
     void move_construct(E&& e) noexcept(is_nothrow_move_constructible<E>::value) {
-        ::new (poly::addressof(base_::err_)) E(move(e));
+        ::new (poly::addressof(base_::err_)) E(poly::move(e));
     }
 };
 
@@ -568,10 +568,10 @@ struct move_assign_result_storage_base<T, E, true, false, true>
             base_::destroy_current();
             base_::has_val_ = rhs.has_val_;
             if (rhs.has_val_) {
-                base_::move_construct(move(rhs.val_));
+                base_::move_construct(poly::move(rhs.val_));
             }
             else {
-                base_::move_construct(move(rhs.err_));
+                base_::move_construct(poly::move(rhs.err_));
             }
         }
         return *this;
@@ -2020,8 +2020,9 @@ public:
         return is_ok();
     }
 
-    template<class V, class U=T, poly::enable_if_t<!poly::is_void_v<U> && poly::is_void_v<V>>* = nullptr>
-    operator result<V, E>() & {
+    //template<class V, class U=T, poly::enable_if_t<!poly::is_void_v<U> && poly::is_void_v<V>>* = nullptr>
+    template<class U=T, poly::enable_if_t<!poly::is_void_v<U>>* = nullptr>
+    operator result<void, E>() & {
         if(is_ok())
         {
             return poly::ok();
