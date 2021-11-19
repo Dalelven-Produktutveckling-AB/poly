@@ -17,13 +17,6 @@
 #include <poly/type_traits.hpp>
 #include <poly/utility.hpp>
 
-#ifdef __has_include
-#if __has_include (<functional>)
-#include <functional>
-#define poly_USE_STD_INVOKE
-#endif
-#endif
-
 //          Copyright Andreas Wass 2019.
 // Distributed under the Boost Software License, Version 1.0.
 //    (See accompanying file LICENSE or copy at
@@ -64,16 +57,6 @@ namespace poly
 {
 namespace result_helper
 {
-#ifdef poly_USE_STD_INVOKE
-template <class... Ts>
-constexpr decltype(auto) invoke(Ts&&... ts) {
-    return std::invoke(poly::forward<Ts>(ts)...);
-}
-
-template <class Fn, class... Ts>
-using invoke_result_t = std::invoke_result_t<Fn, Ts...>;
-#else
-
 template <class Fn, class... Args>
 constexpr decltype(auto) invoke(Fn&& fn, Args&&... ts) {
     return poly::forward<Fn>(fn)(poly::forward<Args>(ts)...);
@@ -104,7 +87,6 @@ struct invoke_result<decltype(void(INVOKE(poly::declval<F>(), poly::declval<Args
 
 template <class Fn, class... Ts>
 using invoke_result_t = typename detail::invoke_result<void, Fn, Ts...>::type;
-#endif
 } // namespace result_helper
 } // namespace poly
 
@@ -2038,6 +2020,7 @@ public:
         return is_ok();
     }
 
+    template<class U=T, poly::enable_if_t<!poly::is_void_v<U>>* = nullptr>
     operator result<void, E>() & {
         if(is_ok())
         {
@@ -2046,6 +2029,7 @@ public:
         return poly::error(storage_.err_.value);
     }
 
+    template<class U=T, poly::enable_if_t<!poly::is_void_v<U>>* = nullptr>
     operator result<void, E>() const& {
         if(is_ok())
         {
@@ -2054,6 +2038,7 @@ public:
         return poly::error(storage_.err_.value);
     }
 
+    template<class U=T, poly::enable_if_t<!poly::is_void_v<U>>* = nullptr>
     operator result<void, E>() && {
         if(is_ok())
         {
@@ -2062,6 +2047,7 @@ public:
         return poly::error(move(storage_.err_.value));
     }
 
+    template<class U=T, poly::enable_if_t<!poly::is_void_v<U>>* = nullptr>
     operator result<void, E>() const && {
         if(is_ok())
         {

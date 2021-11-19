@@ -32,7 +32,7 @@ SOFTWARE.
 
 #pragma once
 
-#if __has_include(<type_traits>)
+#if __has_include(<type_traits>) && !defined(__IAR_SYSTEMS_ICC__)
 #include <type_traits>
 #include <cstddef>
 namespace poly {
@@ -2298,7 +2298,7 @@ template <class Default, template<class...> class Op, class... Args>
 using detected_or = detail::detector<Default, void, Op, Args...>;
 }
 
-#if !__has_include(<type_traits>)
+#if !__has_include(<type_traits>) || defined(__IAR_SYSTEMS_ICC__)
 namespace poly
 {
 namespace tt_detail
