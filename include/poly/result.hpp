@@ -2020,9 +2020,8 @@ public:
         return is_ok();
     }
 
-    //template<class V, class U=T, poly::enable_if_t<!poly::is_void_v<U> && poly::is_void_v<V>>* = nullptr>
-    template<class U=T, poly::enable_if_t<!poly::is_void_v<U>>* = nullptr>
-    operator result<void, E>() & {
+    template<class V, class U=T, poly::enable_if_t<!poly::is_void_v<U> && poly::is_void_v<V>>* = nullptr>
+    operator result<V, E>() & {
         if(is_ok())
         {
             return poly::ok();
