@@ -2020,8 +2020,8 @@ public:
         return is_ok();
     }
 
-    template<class U=T, poly::enable_if_t<!poly::is_void_v<U>>* = nullptr>
-    operator result<void, E>() & {
+    template<class V, class U=T, poly::enable_if_t<!poly::is_void_v<U> && poly::is_void_v<V>>* = nullptr>
+    operator result<V, E>() & {
         if(is_ok())
         {
             return poly::ok();
@@ -2029,8 +2029,8 @@ public:
         return poly::error(storage_.err_.value);
     }
 
-    template<class U=T, poly::enable_if_t<!poly::is_void_v<U>>* = nullptr>
-    operator result<void, E>() const& {
+    template<class V, class U=T, poly::enable_if_t<!poly::is_void_v<U> && poly::is_void_v<V>>* = nullptr>
+    operator result<V, E>() const& {
         if(is_ok())
         {
             return poly::ok();
@@ -2038,8 +2038,8 @@ public:
         return poly::error(storage_.err_.value);
     }
 
-    template<class U=T, poly::enable_if_t<!poly::is_void_v<U>>* = nullptr>
-    operator result<void, E>() && {
+    template<class V, class U=T, poly::enable_if_t<!poly::is_void_v<U> && poly::is_void_v<V>>* = nullptr>
+    operator result<V, E>() && {
         if(is_ok())
         {
             return poly::ok();
@@ -2047,8 +2047,8 @@ public:
         return poly::error(move(storage_.err_.value));
     }
 
-    template<class U=T, poly::enable_if_t<!poly::is_void_v<U>>* = nullptr>
-    operator result<void, E>() const && {
+    template<class V, class U=T, poly::enable_if_t<!poly::is_void_v<U> && poly::is_void_v<V>>* = nullptr>
+    operator result<V, E>() const && {
         if(is_ok())
         {
             return poly::ok();
