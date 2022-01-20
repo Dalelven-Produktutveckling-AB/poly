@@ -233,7 +233,7 @@ using optional_type = boost::optional<T>;
 static inline auto nullopt = boost::none;
 } // namespace poly
 #elif defined(poly_RESULT_USE_OPTIONAL)
-#if __has_include (<optional>)
+#if !defined(poly_RESULT_IGNORE_STD_OPTIONAL) && __has_include (<optional>)
 #include <optional>
 namespace poly
 {
