@@ -223,32 +223,6 @@ using invoke_result_t = typename std::result_of<F(Ts...)>::type;
 } // namespace poly
 #endif
 
-#if defined(poly_RESULT_NO_OPTIONAL)
-#elif defined poly_RESULT_USE_BOOST_OPTIONAL
-#include <boost/optional.hpp>
-namespace poly
-{
-template <class T>
-using optional_type = boost::optional<T>;
-static inline auto nullopt = boost::none;
-} // namespace poly
-#elif defined(poly_RESULT_USE_OPTIONAL)
-#if !defined(poly_RESULT_IGNORE_STD_OPTIONAL) && __has_include (<optional>)
-#include <optional>
-namespace poly
-{
-template <class T>
-using optional_type = std::optional<T>;
-constexpr auto nullopt = std::nullopt;
-} // namespace poly
-#elif __has_include (<poly/optional.hpp>)
-#include <poly/optional.hpp>
-namespace poly
-{
-template<class T>
-using optional_type = poly::optional<T>;
-}
-#elif __has_include (<etl/optional.h>)
 #include <etl/optional.h>
 namespace poly
 {
@@ -256,16 +230,6 @@ template <class T>
 using optional_type = etl::optional<T>;
 constexpr auto nullopt = etl::nullopt;
 } // namespace poly
-#endif
-#else
-#include <experimental/optional>
-namespace poly
-{
-template <class T>
-using optional_type = std::experimental::optional<T>;
-constexpr auto nullopt = std::experimental::nullopt;
-} // namespace poly
-#endif
 
 //          Copyright Andreas Wass 2019.
 // Distributed under the Boost Software License, Version 1.0.
