@@ -30,7 +30,11 @@ SOFTWARE.
 
 #pragma once
 
+#if __has_include(<climits>)
+#include <climits>
+#else
 #include <limits.h>
+#endif
 #include <stdint.h>
 #include <float.h>
 #include <math.h>
